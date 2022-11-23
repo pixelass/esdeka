@@ -68,7 +68,7 @@ import { SdkProvider, useSdk, useSdkStore } from "esdeka/sdk";
 function InnerComponent() {
   const widgets = useSdkStore(state => state.data);
   const setWidgetData = useSdkStore(state => state.setWidgetData);
-  const bgcolor = useSdk(sdk => sdk.data.bgcolor);
+  const backgroundColor = useSdk(sdk => sdk.data.bgcolor);
   const theme = useSdk(sdk => sdk.theme);
 
   return (
@@ -76,7 +76,7 @@ function InnerComponent() {
       style={theme => ({
         position: "absolute",
         inset: 0,
-        bgcolor,
+        backgroundColor,
       })}
     >
       <button
