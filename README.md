@@ -2,6 +2,10 @@
 
 Communicate between `<iframe>` and host
 
+<p align="center">
+  <img src="https://github.com/pixelass/esdeka/blob/main/resources/logo.svg" alt="" width="200"/>
+</p>
+
 <!--
 ![Codacy coverage](https://img.shields.io/codacy/coverage/a22d58431d614c798ac08fd5414b419e?style=for-the-badge)
 ![Codacy grade](https://img.shields.io/codacy/grade/a22d58431d614c798ac08fd5414b419e?style=for-the-badge)
