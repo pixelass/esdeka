@@ -66,7 +66,6 @@ export default function App() {
 ### Iframe
 
 ```jsx
-import { CustomSdkModel, SDK_KEY, useSdk, useSdkStore } from "@/sdk/example";
 import { SdkProvider, useSdk, useSdkStore } from "esdeka/sdk";
 
 function InnerComponent() {
