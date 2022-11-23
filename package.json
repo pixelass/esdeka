@@ -13,6 +13,10 @@
     "app",
     "communicate"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:pixelass/esdeka.git"
+  },
   "license": "MIT",
   "author": {
     "name": "Gregor Adams",
