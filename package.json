@@ -49,7 +49,7 @@
     }
   },
   "files": [
-    "dist/{**/*,*}(d)?.(m)?[tj]s(.map)?"
+    "dist/*"
   ],
   "scripts": {
     "build": "yarn rollup",
