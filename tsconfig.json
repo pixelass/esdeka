@@ -1,0 +1,27 @@
+{
+  "compilerOptions": {
+    "allowJs": true,
+    "allowSyntheticDefaultImports": true,
+    "alwaysStrict": true,
+    "declaration": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "importHelpers": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "lib": ["dom", "esnext"],
+    "module": "esnext",
+    "moduleResolution": "Node16",
+    "outDir": "dist",
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "sourceMap": true,
+    "strict": false,
+    "target": "es2018",
+    "baseUrl": ".",
+    "typeRoots": ["./node_modules/@types"],
+    "incremental": true
+  },
+  "exclude": ["node_modules"],
+  "include": ["src/**/*.ts", "src/*.ts", "src/**/*.tsx", "src/*.tsx"]
+}
