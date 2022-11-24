@@ -1,5 +1,11 @@
-import { useSdk as useEsdeka, useSdkStore as useEsdekaStore } from "esdeka/sdk";
-import { PublicStoreModel, SdkModel, Selector, WidgetModel } from "esdeka/types";
+import {
+	PublicStoreModel,
+	SdkModel,
+	Selector,
+	WidgetModel,
+	useSdk as useEsdeka,
+	useSdkStore as useEsdekaStore,
+} from "esdeka";
 
 import { CounterStore } from "./example-store";
 

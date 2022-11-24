@@ -1,5 +1,4 @@
-import { storeSlice } from "esdeka/public-store";
-import { PublicStoreModel, StoreModel } from "esdeka/types";
+import { PublicStoreModel, StoreModel, storeSlice } from "esdeka";
 import create from "zustand";
 
 export interface CounterStore {

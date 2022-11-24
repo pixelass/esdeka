@@ -45,7 +45,7 @@ The usage is pretty straight forward, especially if you don't use typescript.
 ### Host
 
 ```jsx
-import { FrameWidget } from "esdeka/frame";
+import { FrameWidget } from "esdeka";
 
 const myWidget = {
   id: "my_widget",
@@ -66,7 +66,7 @@ export default function App() {
 ### Iframe
 
 ```jsx
-import { SdkProvider, useSdk, useSdkStore } from "esdeka/sdk";
+import { SdkProvider, useSdk, useSdkStore } from "esdeka";
 
 function InnerComponent() {
   const widgets = useSdkStore(state => state.data);
