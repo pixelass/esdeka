@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file. See
 [standard-version](https://github.com/conventional-changelog/standard-version) for commit
 guidelines.
 
+### [0.1.6](https://github.com/pixelass/esdeka/compare/v0.1.5...v0.1.6) (2022-11-24)
+
+### Features
+
+- export SdkContextProvider
+  ([5f85ee4](https://github.com/pixelass/esdeka/commit/5f85ee4f52cb23688913cf99dd4b122712f6443f))
+
 ### [0.1.5](https://github.com/pixelass/esdeka/compare/v0.1.4...v0.1.5) (2022-11-24)
 
 ### [0.1.4](https://github.com/pixelass/esdeka/compare/v0.1.3...v0.1.4) (2022-11-23)
