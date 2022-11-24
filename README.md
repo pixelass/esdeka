@@ -82,18 +82,22 @@ export default function App() {
 import { SdkProvider, useSdk, useSdkStore } from "esdeka";
 
 function InnerComponent() {
+  // The store has a custom hook
   const widgets = useSdkStore(state => state.data);
   const setWidgetData = useSdkStore(state => state.setWidgetData);
-  const backgroundColor = useSdk(sdk => sdk.data.bgcolor);
+  // The theme and data can be selected from the sdk
   const theme = useSdk(sdk => sdk.theme);
+  const data = useSdk(sdk => sdk.data);
+  // Deep seletors
+  const id = useSdk(sdk => sdk.data.id);
 
   return (
     <div
-      style={theme => ({
+      style={{
         position: "absolute",
         inset: 0,
         backgroundColor,
-      })}
+      }}
     >
       <button
         onClick={() => {
@@ -105,6 +109,8 @@ function InnerComponent() {
         Set widget data
       </button>
       <pre>{JSON.stringify(widgets, null, 2)}</pre>
+      <pre>{JSON.stringify(theme, null, 2)}</pre>
+      <pre>{JSON.stringify(data, null, 2)}</pre>
     </div>
   );
 }
