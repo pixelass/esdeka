@@ -58,7 +58,7 @@
     "build": "yarn rollup",
     "clean": "yarn dlx rimraf dist",
     "dev": "yarn rollup -w",
-    "eslint": "eslint 'src/{**/*,*}.{js,ts,tsx}'",
+    "eslint": "eslint 'src/{**/*,*}.{js,ts}'",
     "eslint:fix": "yarn eslint --fix",
     "postinstall": "husky install",
     "lint": "yarn tsc:noEmit && yarn eslint",
@@ -66,7 +66,7 @@
     "ncu:minor": "yarn ncu -t minor",
     "ncu:patch": "yarn ncu -t patch",
     "prepublishOnly": "yarn clean && yarn build && yarn tsc:emitOnly",
-    "prettier": "prettier 'src/{**/*,*}.{ts,tsx}'",
+    "prettier": "prettier 'src/{**/*,*}.ts'",
     "release": "yarn dlx standard-version@9",
     "rollup": "rollup -c",
     "spj": "yarn dlx sort-package-json package.json",
@@ -77,10 +77,6 @@
     "tsc:noEmit": "tsc --noEmit",
     "unimported": "yarn dlx unimported"
   },
-  "dependencies": {
-    "immer": "^9.0.16",
-    "zustand": "^4.1.4"
-  },
   "devDependencies": {
     "@commitlint/cli": "^17.2.0",
     "@commitlint/config-conventional": "^17.2.0",
@@ -89,12 +85,9 @@
     "@swc/jest": "^0.2.22",
     "@testing-library/dom": "^8.19.0",
     "@testing-library/jest-dom": "^5.16.5",
-    "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^14.4.3",
     "@types/jest": "^29.2.2",
     "@types/node": "^16.11.45",
-    "@types/react": "^18.0.25",
-    "@types/react-dom": "^18.0.8",
     "@types/testing-library__jest-dom": "^5.14.5",
     "@typescript-eslint/eslint-plugin": "^5.42.0",
     "@typescript-eslint/parser": "^5.42.0",
@@ -104,8 +97,6 @@
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-jest": "^27.1.4",
     "eslint-plugin-prettier": "^4.2.1",
-    "eslint-plugin-react": "^7.31.10",
-    "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-unicorn": "^44.0.2",
     "husky": "^8.0.1",
     "jest": "^29.2.2",
@@ -113,17 +104,11 @@
     "jest-environment-jsdom": "^29.2.2",
     "lint-staged": "^13.0.3",
     "prettier": "^2.7.1",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
     "rollup": "^3.2.5",
     "rollup-plugin-swc3": "^0.7.0",
     "tslib": "^2.4.1",
     "type-fest": "^3.1.0",
     "typescript": "^4.8.4"
-  },
-  "peerDependencies": {
-    "react": ">=18",
-    "react-dom": ">=18"
   },
   "packageManager": "yarn@3.2.0",
   "engines": {

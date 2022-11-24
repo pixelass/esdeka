@@ -1,133 +1,220 @@
-# EsDeKa
+# Esdeka
 
 Communicate between `<iframe>` and host
 
 <p align="center">
-  <img src="https://github.com/pixelass/esdeka/blob/main/resources/logo.svg" alt="" width="200"/>
+  <img src="https://raw.githubusercontent.com/pixelass/esdeka/main/resources/logo.svg" alt="" width="200"/>
 </p>
-
-<!--
-![Codacy coverage](https://img.shields.io/codacy/coverage/a22d58431d614c798ac08fd5414b419e?style=for-the-badge)
-![Codacy grade](https://img.shields.io/codacy/grade/a22d58431d614c798ac08fd5414b419e?style=for-the-badge)
--->
 
 ## Table of Contents
 
 <!-- toc -->
 
 - [Purpose](#purpose)
-- [Built on Zustand](#built-on-zustand)
-- [Usage](#usage)
-  - [Host](#host)
-  - [Iframe](#iframe)
-- [Typescript](#typescript)
+- [Examples](#examples)
+  - [React](#react)
+    - [Host:](#host)
+    - [Guest](#guest)
 
 <!-- tocstop -->
 
 ## Purpose
 
-While developing an internal tool we wanted to communicate to third party apps/widgets that are
-hosted in an iframe.
+While building a dashboard we wanted to allow an easy way to communicate state changes and other
+data between the host and guest frame.
 
-In our case we wanted to pass a state, theme and additional data down to the iframe.
+<img src="https://raw.githubusercontent.com/pixelass/esdeka/main/resources/esdeka-flow.svg" alt=""/>
 
-## Built on Zustand
+## Examples
 
-We decided to use [Zustand](https://github.com/pmndrs/zustand) as a state management library,
-because it allows several mechanisms, that are required to make this possible. React does not allow
-using hooks passed though an iframe to be run in the iframe, therefore we create a custom hook in
-the iframe that subscribes to Zustand.
+### React
 
-## Usage
+#### Host:
 
-The usage is pretty straight forward, especially if you don't use typescript.
-
-### Host
-
-```jsx
-import { FrameWidget, SdkContextProvider, storeSlice } from "esdeka";
+```tsx
+import { DetailedHTMLProps, IframeHTMLAttributes, useEffect, useRef, useState } from "react";
 import create from "zustand";
 
-const myWidget = {
-  id: "my_widget",
-  name: "This is my Widget ",
-  widget: {
-    __typename: "Frame",
-    data: {
-      src: "https://example.com/widgets/my-widget",
-    },
+import { broadcast, connect, serialize, subscribe } from "esdeka";
+
+export interface StoreModel {
+  counter: number;
+  increment(): void;
+  decrement(): void;
+}
+
+export const useStore = create<StoreModel>(set => ({
+  counter: 0,
+  set(state) {
+    set(state);
   },
-};
-
-const theme = {
-  primary: "#420",
-};
-
-const useStore = create(set => ({
-  ...storeSlice(set),
+  increment() {
+    set(state => ({ counter: state.counter + 1 }));
+  },
+  decrement() {
+    set(state => ({ counter: state.counter - 1 }));
+  },
 }));
 
+export interface EsdekaHostProps
+  extends DetailedHTMLProps<IframeHTMLAttributes<HTMLIFrameElement>, HTMLIFrameElement> {
+  channel: string;
+  maxTries?: number;
+  interval?: number;
+}
+
+export function EsdekaHost({ channel, maxTries = 30, interval = 30, ...props }: EsdekaHostProps) {
+  const ref = useRef<HTMLIFrameElement>(null);
+  const connection = useRef(false);
+  const [tries, setTries] = useState(maxTries);
+
+  // Send a connection request
+  useEffect(() => {
+    console.log("connecting", tries, connection.current);
+    if (connection.current || tries <= 0) {
+      return () => {
+        /* Consistency */
+      };
+    }
+
+    connect(ref.current.contentWindow, channel, serialize(useStore.getState()));
+    const timeout = setTimeout(() => {
+      connect(ref.current.contentWindow, channel, serialize(useStore.getState()));
+      setTries(tries - 1);
+    }, interval);
+
+    return () => {
+      clearTimeout(timeout);
+    };
+  }, [channel, tries, interval]);
+
+  useEffect(() => {
+    if (!connection.current) {
+      const unsubscribe = subscribe(channel, event => {
+        const store = useStore.getState();
+        const { action } = event.data;
+        switch (action.type) {
+          case "connected":
+            connection.current = true;
+            break;
+          default:
+            if (typeof store[action.type] === "function") {
+              store[action.type](action.payload);
+            }
+            break;
+        }
+      });
+      return () => {
+        unsubscribe();
+      };
+    }
+    return () => {
+      /* Consistency */
+    };
+  }, [channel]);
+
+  // Broadcast store to guest
+  useEffect(() => {
+    if (!connection.current) {
+      const unsubscribe = useStore.subscribe(newState => {
+        broadcast(ref.current.contentWindow, channel, serialize(newState));
+      });
+      return () => {
+        unsubscribe();
+      };
+    }
+    return () => {
+      /* Consistency */
+    };
+  }, []);
+
+  return <iframe ref={ref} {...props} />;
+}
+
 export default function App() {
+  const increment = useStore(state => state.increment);
+  const decrement = useStore(state => state.decrement);
+  const counter = useStore(state => state.counter);
   return (
-    <SdkContextProvider value={{ sdk: { store: useStore, theme } }}>
-      <FrameWidget sdkKey="MY_SDK" data={myWidget} />
-    </SdkContextProvider>
+    <div>
+      <button onClick={increment}>Up</button>
+      <span>{counter}</span>
+      <button onClick={decrement}>Down</button>
+      <EsdekaHost channel="esdeka-test" src="http://localhost:3000/widgets/esdeka2" />
+    </div>
   );
 }
 ```
 
-### Iframe
+#### Guest
 
-```jsx
-import { SdkProvider, useSdk, useSdkStore } from "esdeka";
+```tsx
+import { connected, dispatch, subscribe } from "@/lib2";
+import { useEffect, useState } from "react";
+import { Except } from "type-fest";
+import create from "zustand";
 
-function InnerComponent() {
-  // The store has a custom hook
-  const widgets = useSdkStore(state => state.data);
-  const setWidgetData = useSdkStore(state => state.setWidgetData);
-  // The theme and data can be selected from the sdk
-  const theme = useSdk(sdk => sdk.theme);
-  const data = useSdk(sdk => sdk.data);
-  // Deep seletors
-  const id = useSdk(sdk => sdk.data.id);
+export interface StoreModel {
+  [key: string]: any;
+  // eslint-disable-next-line no-unused-vars
+  set(state: Except<StoreModel, "set">): void;
+}
+
+export const useStore = create<StoreModel>(set => ({
+  set(state) {
+    set(state);
+  },
+}));
+
+export function EsdekaGuest({ channel }: { channel: string }) {
+  const counter = useStore(state => state.counter);
+  const [host, setHost] = useState(null);
+
+  // Wait for connection request and confirmation
+  useEffect(() => {
+    const unsubscribe = subscribe<Except<StoreModel, "set">>(channel, event => {
+      const { origin, source } = event;
+      const { action } = event.data;
+      switch (action.type) {
+        case "connect":
+          setHost({ origin, source });
+          connected(source as Window, channel);
+          break;
+        case "broadcast":
+          useStore.getState().set(action.payload);
+          break;
+        default:
+          break;
+      }
+    });
+    return () => {
+      unsubscribe();
+    };
+  }, [channel]);
 
   return (
-    <div
-      style={{
-        position: "absolute",
-        inset: 0,
-        backgroundColor,
-      }}
-    >
+    <div>
+      <div>{counter}</div>
       <button
         onClick={() => {
-          setWidgetData(widget => {
-            widget.message = "Hello, I am a widget";
-          });
+          dispatch(host.source, channel, { type: "decrement" });
         }}
       >
-        Set widget data for frame {id}
+        Down
       </button>
-      <pre>{JSON.stringify(widgets, null, 2)}</pre>
-      <pre>{JSON.stringify(theme, null, 2)}</pre>
-      <pre>{JSON.stringify(data, null, 2)}</pre>
+      <button
+        onClick={() => {
+          dispatch(host.source, channel, { type: "increment" });
+        }}
+      >
+        Up
+      </button>
+      <h1>Hello</h1>
     </div>
   );
 }
 
-export default function App() {
-  return (
-    <SdkProvider sdkKey="MY_SDK">
-      <InnerComponent />
-    </SdkProvider>
-  );
+export default function Page() {
+  return <EsdekaGuest channel="esdeka-test" />;
 }
 ```
-
-## Typescript
-
-We added an example in [examples/example.tsx](./examples/example.tsx). It shows how to add data to
-the store and add a custom theme. Please look at the comments to understand how to add the correct
-typings to your sdk. The example is a fully working sdk intended to be shared over a
-package-manager. The `useStore` would usually not be shared in said package. It is intended to be
-used in the host only. Only the store model (here `CounterStore`) is needed.
