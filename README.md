@@ -45,7 +45,8 @@ The usage is pretty straight forward, especially if you don't use typescript.
 ### Host
 
 ```jsx
-import { FrameWidget } from "esdeka";
+import { FrameWidget, SdkContext, storeSlice } from "esdeka";
+import create from "zustand";
 
 const myWidget = {
   id: "my_widget",
@@ -58,8 +59,20 @@ const myWidget = {
   },
 };
 
+const theme = {
+  primary: "#420",
+};
+
+const useStore = create(set => ({
+  ...storeSlice(set),
+}));
+
 export default function App() {
-  return <FrameWidget sdkKey="MY_SDK" data={myWidget} />;
+  return (
+    <SdkContext.Provider value={{ sdk: { store: useStore, theme } }}>
+      <FrameWidget sdkKey="MY_SDK" data={myWidget} />
+    </SdkContext.Provider>
+  );
 }
 ```
 
