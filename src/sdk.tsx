@@ -14,6 +14,8 @@ export const SdkContext = createContext({
 	sdk: null,
 });
 
+export const { Provider: SdkContextProvider } = SdkContext;
+
 export function useSdkContext<Widget extends WidgetModel, Store = StoreModel, Theme = any>() {
 	return useContext<SdkContextModel<Widget, Store, Theme>>(SdkContext);
 }

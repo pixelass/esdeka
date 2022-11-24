@@ -45,7 +45,7 @@ The usage is pretty straight forward, especially if you don't use typescript.
 ### Host
 
 ```jsx
-import { FrameWidget, SdkContext, storeSlice } from "esdeka";
+import { FrameWidget, SdkContextProvider, storeSlice } from "esdeka";
 import create from "zustand";
 
 const myWidget = {
@@ -69,9 +69,9 @@ const useStore = create(set => ({
 
 export default function App() {
   return (
-    <SdkContext.Provider value={{ sdk: { store: useStore, theme } }}>
+    <SdkContextProvider value={{ sdk: { store: useStore, theme } }}>
       <FrameWidget sdkKey="MY_SDK" data={myWidget} />
-    </SdkContext.Provider>
+    </SdkContextProvider>
   );
 }
 ```
@@ -106,7 +106,7 @@ function InnerComponent() {
           });
         }}
       >
-        Set widget data
+        Set widget data for frame {id}
       </button>
       <pre>{JSON.stringify(widgets, null, 2)}</pre>
       <pre>{JSON.stringify(theme, null, 2)}</pre>

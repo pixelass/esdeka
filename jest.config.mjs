@@ -23,7 +23,7 @@ const jestConfig = {
 	coverageReporters: ["lcov"],
 	testEnvironment: "jsdom",
 	transformIgnorePatterns: ["/node_modules/(?!(nanoid)/)"],
-	extensionsToTreatAsEsm: [".ts", ".tsx"],
+	extensionsToTreatAsEsm: [".ts", ".tsx"]
 };
 
 export default jestConfig;
