@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file. See
 [standard-version](https://github.com/conventional-changelog/standard-version) for commit
 guidelines.
 
+### [0.1.8](https://github.com/pixelass/esdeka/compare/v0.1.7...v0.1.8) (2022-11-25)
+
+### Features
+
+- add react hooks
+  ([6a763ce](https://github.com/pixelass/esdeka/commit/6a763ce947e5dcc769c56b2e925cde87765153f8))
+
 ### [0.1.7](https://github.com/pixelass/esdeka/compare/v0.1.6...v0.1.7) (2022-11-25)
 
 ### Features
