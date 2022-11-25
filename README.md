@@ -11,10 +11,20 @@ Communicate between `<iframe>` and host
 <!-- toc -->
 
 - [Purpose](#purpose)
+- [Functions](#functions)
+  - [Connect](#connect)
+  - [Connected](#connected)
+  - [Disconnect](#disconnect)
+  - [Subscribe](#subscribe)
+  - [Dispatch](#dispatch)
+  - [Broadcast](#broadcast)
 - [Examples](#examples)
-  - [React](#react)
+  - [Vanilla](#vanilla)
+  - [Host](#host)
+  - [Guest](#guest)
+  - [React (using Zustand)](#react-using-zustand)
     - [Host:](#host)
-    - [Guest](#guest)
+    - [Guest](#guest-1)
 
 <!-- tocstop -->
 
@@ -25,9 +35,112 @@ data between the host and guest frame.
 
 <img src="https://raw.githubusercontent.com/pixelass/esdeka/main/resources/esdeka-flow.svg" alt=""/>
 
+## Functions
+
+### Connect
+
+Sends a connection request from the host to a guest. The payload can be anything that you want to
+send through a channel.
+
+```ts
+connect(window, "my-channel", {
+  message: "Hello",
+});
+```
+
+### Connected
+
+Answer to a host to confirm the connection.
+
+```ts
+connected(window, "my-channel");
+```
+
+### Disconnect
+
+Tell the host that the guest disconnected.
+
+```ts
+disconnect(window, "my-channel");
+```
+
+### Subscribe
+
+Listen to all messages in a channel.
+
+```ts
+subscribe("my-channel", event => {
+  console.log(event);
+});
+```
+
+### Dispatch
+
+Send an action to Esdeka. THe host will be informed and can act un the request.
+
+**Without payload**
+
+```ts
+dispatch(window, "my-channel", {
+  action: {
+    type: "increment",
+  },
+});
+```
+
+**With payload**
+
+```ts
+dispatch(window, "my-channel", {
+  action: {
+    type: "greet",
+    payload: {
+      message: "Hello",
+    },
+  },
+});
+```
+
+### Broadcast
+
+Send data from the host window to the guest. The payload can be anything that you want to send
+through a channel.
+
+```ts
+boadcast(window, "my-channel", {
+  message: "Hello",
+});
+```
+
 ## Examples
 
-### React
+### Vanilla
+
+### Host
+
+```ts
+import { connect } from "esdeka";
+
+const iframe = document.querySelector("iframe");
+
+connect(iframe.contentWindow, "my-channel", { some: "Data" });
+```
+
+### Guest
+
+```ts
+import { connect } from "esdeka";
+
+const iframe = document.querySelector("iframe");
+
+subscribe("my-channel", event => {
+  if (event.data.action.type === "connect") {
+    connected(event.source, "my-channel");
+  }
+});
+```
+
+### React (using Zustand)
 
 #### Host:
 
@@ -45,9 +158,6 @@ export interface StoreModel {
 
 export const useStore = create<StoreModel>(set => ({
   counter: 0,
-  set(state) {
-    set(state);
-  },
   increment() {
     set(state => ({ counter: state.counter + 1 }));
   },
