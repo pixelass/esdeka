@@ -280,7 +280,6 @@ export function EsdekaGuest({ channel }: { channel: string }) {
   const counter = useStore(state => state.counter);
   const [host, setHost] = useState(null);
 
-  // Wait for connection request and confirmation
   useEffect(() => {
     const unsubscribe = subscribe<Except<StoreModel, "set">>(channel, event => {
       const { origin, source } = event;
