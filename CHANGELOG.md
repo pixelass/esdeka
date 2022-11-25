@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file. See
 [standard-version](https://github.com/conventional-changelog/standard-version) for commit
 guidelines.
 
+### [0.1.7](https://github.com/pixelass/esdeka/compare/v0.1.6...v0.1.7) (2022-11-25)
+
+### Features
+
+- allow cross-origin communication
+  ([62db6c1](https://github.com/pixelass/esdeka/commit/62db6c1bfa8324da26f1cd1fbf74deabac4a9575))
+
 ### [0.1.6](https://github.com/pixelass/esdeka/compare/v0.1.5...v0.1.6) (2022-11-24)
 
 ### Features
