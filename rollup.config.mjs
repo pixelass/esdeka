@@ -4,9 +4,9 @@ import { swc } from "rollup-plugin-swc3";
 export default [
 	{
 		external: [
-			"react/jsx-runtime",
 			...Object.keys({
 				...(pkg.dependencies ?? {}),
+				...(pkg.optionalDependencies ?? {}),
 				...(pkg.peerDependencies ?? {}),
 			}),
 		],
@@ -19,6 +19,34 @@ export default [
 			},
 			{
 				file: `dist/index.mjs`,
+				sourcemap: true,
+				format: "es",
+			},
+		],
+		plugins: [
+			swc({
+				sourceMaps: true,
+			}),
+		],
+	},
+	{
+		external: [
+			"react/jsx-runtime",
+			...Object.keys({
+				...(pkg.dependencies ?? {}),
+				...(pkg.optionalDependencies ?? {}),
+				...(pkg.peerDependencies ?? {}),
+			}),
+		],
+		input: "src/react/index.ts",
+		output: [
+			{
+				file: `dist/react.js`,
+				sourcemap: true,
+				format: "cjs",
+			},
+			{
+				file: `dist/react.mjs`,
 				sourcemap: true,
 				format: "es",
 			},

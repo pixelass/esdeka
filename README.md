@@ -3,7 +3,7 @@
 Communicate between `<iframe>` and host
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/pixelass/esdeka/main/resources/logo.svg" alt="" width="200"/>
+  <img src="./resources/esdeka-logo.png" alt="" width="256"/>
 </p>
 
 ## Table of Contents
@@ -23,7 +23,7 @@ Communicate between `<iframe>` and host
     - [Host](#host)
     - [Guest](#guest)
   - [React (using Zustand)](#react-using-zustand)
-    - [Host:](#host)
+    - [Host](#host-1)
     - [Guest](#guest-1)
 
 <!-- tocstop -->
@@ -140,13 +140,15 @@ subscribe("my-channel", event => {
 
 ### React (using Zustand)
 
-#### Host:
+#### Host
+
+`http://localhost:3000/`
 
 ```tsx
+import { serialize } from "esdeka";
+import { useHost } from "esdeka/react";
 import { DetailedHTMLProps, IframeHTMLAttributes, useEffect, useRef, useState } from "react";
 import create from "zustand";
-
-import { broadcast, connect, serialize, subscribe } from "esdeka";
 
 export interface StoreModel {
   counter: number;
@@ -176,29 +178,30 @@ export function EsdekaHost({ channel, maxTries = 30, interval = 30, ...props }: 
   const connection = useRef(false);
   const [tries, setTries] = useState(maxTries);
 
+  const { broadcast, connect, subscribe } = useHost(ref, channel);
+
   // Send a connection request
   useEffect(() => {
-    console.log("connecting", tries, connection.current);
     if (connection.current || tries <= 0) {
       return () => {
         /* Consistency */
       };
     }
 
-    connect(ref.current.contentWindow, channel, serialize(useStore.getState()));
+    connect(serialize(useStore.getState()));
     const timeout = setTimeout(() => {
-      connect(ref.current.contentWindow, channel, serialize(useStore.getState()));
+      connect(serialize(useStore.getState()));
       setTries(tries - 1);
     }, interval);
 
     return () => {
       clearTimeout(timeout);
     };
-  }, [channel, tries, interval]);
+  }, [connect, tries, interval]);
 
   useEffect(() => {
     if (!connection.current) {
-      const unsubscribe = subscribe(channel, event => {
+      const unsubscribe = subscribe(event => {
         const store = useStore.getState();
         const { action } = event.data;
         switch (action.type) {
@@ -207,7 +210,7 @@ export function EsdekaHost({ channel, maxTries = 30, interval = 30, ...props }: 
             break;
           default:
             if (typeof store[action.type] === "function") {
-              store[action.type](action.payload);
+              store[action.type](action.payload.store);
             }
             break;
         }
@@ -219,13 +222,13 @@ export function EsdekaHost({ channel, maxTries = 30, interval = 30, ...props }: 
     return () => {
       /* Consistency */
     };
-  }, [channel]);
+  }, [subscribe]);
 
   // Broadcast store to guest
   useEffect(() => {
-    if (!connection.current) {
+    if (connection.current) {
       const unsubscribe = useStore.subscribe(newState => {
-        broadcast(ref.current.contentWindow, channel, serialize(newState));
+        broadcast(serialize(newState));
       });
       return () => {
         unsubscribe();
@@ -234,7 +237,7 @@ export function EsdekaHost({ channel, maxTries = 30, interval = 30, ...props }: 
     return () => {
       /* Consistency */
     };
-  }, []);
+  }, [broadcast]);
 
   return <iframe ref={ref} {...props} />;
 }
@@ -248,7 +251,7 @@ export default function App() {
       <button onClick={increment}>Up</button>
       <span>{counter}</span>
       <button onClick={decrement}>Down</button>
-      <EsdekaHost channel="esdeka-test" src="http://localhost:3000/widgets/esdeka2" />
+      <EsdekaHost channel="esdeka-test" src="http://localhost:3001" />
     </div>
   );
 }
@@ -256,16 +259,17 @@ export default function App() {
 
 #### Guest
 
+`http://localhost:3001`
+
 ```tsx
-import { connected, dispatch, subscribe } from "esdeka";
+import { useGuest } from "esdeka/react";
 import { useEffect, useState } from "react";
-import { Except } from "type-fest";
 import create from "zustand";
 
 export interface StoreModel {
   [key: string]: any;
   // eslint-disable-next-line no-unused-vars
-  set(state: Except<StoreModel, "set">): void;
+  set(state: Omit<StoreModel, "set">): void;
 }
 
 export const useStore = create<StoreModel>(set => ({
@@ -276,16 +280,16 @@ export const useStore = create<StoreModel>(set => ({
 
 export function EsdekaGuest({ channel }: { channel: string }) {
   const counter = useStore(state => state.counter);
-  const [host, setHost] = useState(null);
+  const host = useRef<Window | null>(null);
+  const { connected, dispatch, subscribe } = useGuest();
 
   useEffect(() => {
-    const unsubscribe = subscribe<Except<StoreModel, "set">>(channel, event => {
-      const { origin, source } = event;
+    const unsubscribe = subscribe<Except<StoreModel, "set">>(event => {
       const { action } = event.data;
       switch (action.type) {
         case "connect":
-          setHost({ origin, source });
-          connected(source as Window, channel);
+          host.current = event.source as Window;
+          connected(host.current);
           break;
         case "broadcast":
           useStore.getState().set(action.payload);
@@ -297,26 +301,25 @@ export function EsdekaGuest({ channel }: { channel: string }) {
     return () => {
       unsubscribe();
     };
-  }, [channel]);
+  }, [connected, subscribe]);
 
   return (
     <div>
-      <div>{counter}</div>
+      <h1>Current Count: {counter}</h1>
       <button
         onClick={() => {
-          dispatch(host.source, channel, { type: "decrement" });
+          dispatch({ type: "decrement" });
         }}
       >
         Down
       </button>
       <button
         onClick={() => {
-          dispatch(host.source, channel, { type: "increment" });
+          dispatch({ type: "increment" });
         }}
       >
         Up
       </button>
-      <h1>Hello</h1>
     </div>
   );
 }

@@ -4,11 +4,11 @@
   "description": "Communicate between iframe and host",
   "keywords": [
     "react",
+    "vanilla",
     "hooks",
     "sdk",
     "iframe",
     "state",
-    "theme",
     "widget",
     "app",
     "communicate"
@@ -25,34 +25,36 @@
   "exports": {
     ".": {
       "import": "./dist/index.mjs",
-      "require": "./dist/index.cjs",
       "default": "./dist/index.js",
       "types": "./dist/index.d.ts"
     },
-    "./*": {
-      "import": [
-        "./dist/*.mjs",
-        "./dist/index.mjs"
-      ],
-      "require": [
-        "./dist/*.cjs",
-        "./dist/index.cjs"
-      ],
-      "default": [
-        "./dist/*.js",
-        "./dist/index.js"
-      ],
-      "types": [
-        "./dist/*.d.ts",
-        "./dist/index.d.ts"
-      ]
+    "./react": {
+      "import": "./dist/react.mjs",
+      "default": "./dist/react.js",
+      "types": "./dist/react/index.d.ts"
     }
   },
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
+  "typesVersions": {
+    "*": {
+      "react": [
+        "./dist/react/index.d.ts"
+      ]
+    }
+  },
   "files": [
-    "dist/*"
+    "dist/*.js",
+    "dist/*.mjs",
+    "dist/*.js.map",
+    "dist/*.mjs.map",
+    "dist/*.d.ts",
+    "dist/**/*.js",
+    "dist/**/*.mjs",
+    "dist/**/*.js.map",
+    "dist/**/*.mjs.map",
+    "dist/**/*.d.ts"
   ],
   "scripts": {
     "build": "yarn rollup",
@@ -88,6 +90,8 @@
     "@testing-library/user-event": "^14.4.3",
     "@types/jest": "^29.2.2",
     "@types/node": "^16.11.45",
+    "@types/react": "^18.0.25",
+    "@types/react-dom": "^18.0.8",
     "@types/testing-library__jest-dom": "^5.14.5",
     "@typescript-eslint/eslint-plugin": "^5.42.0",
     "@typescript-eslint/parser": "^5.42.0",
@@ -97,6 +101,8 @@
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-jest": "^27.1.4",
     "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-react": "^7.31.10",
+    "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-unicorn": "^44.0.2",
     "husky": "^8.0.1",
     "jest": "^29.2.2",
@@ -104,11 +110,17 @@
     "jest-environment-jsdom": "^29.2.2",
     "lint-staged": "^13.0.3",
     "prettier": "^2.7.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "rollup": "^3.2.5",
     "rollup-plugin-swc3": "^0.7.0",
     "tslib": "^2.4.1",
     "type-fest": "^3.1.0",
     "typescript": "^4.8.4"
+  },
+  "optionalDependencies": {
+    "react": ">=18",
+    "react-dom": ">=18"
   },
   "packageManager": "yarn@3.2.0",
   "engines": {
