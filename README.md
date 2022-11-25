@@ -20,8 +20,8 @@ Communicate between `<iframe>` and host
   - [Broadcast](#broadcast)
 - [Examples](#examples)
   - [Vanilla](#vanilla)
-  - [Host](#host)
-  - [Guest](#guest)
+    - [Host](#host)
+    - [Guest](#guest)
   - [React (using Zustand)](#react-using-zustand)
     - [Host:](#host)
     - [Guest](#guest-1)
@@ -116,7 +116,7 @@ boadcast(window, "my-channel", {
 
 ### Vanilla
 
-### Host
+#### Host
 
 ```ts
 import { connect } from "esdeka";
@@ -126,7 +126,7 @@ const iframe = document.querySelector("iframe");
 connect(iframe.contentWindow, "my-channel", { some: "Data" });
 ```
 
-### Guest
+#### Guest
 
 ```ts
 import { connect } from "esdeka";
