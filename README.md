@@ -3,7 +3,7 @@
 Communicate between `<iframe>` and host
 
 <p align="center">
-  <img src="./resources/esdeka-logo.png" alt="" width="256"/>
+  <img src="https://raw.githubusercontent.com/pixelass/esdeka/main/resources/esdeka-logo.png" alt="" width="256"/>
 </p>
 
 ## Table of Contents
@@ -76,7 +76,7 @@ subscribe("my-channel", event => {
 
 ### Dispatch
 
-Send an action to Esdeka. THe host will be informed and can act un the request.
+Send an action to Esdeka. The host will be informed and can act un the request.
 
 **Without payload**
 
