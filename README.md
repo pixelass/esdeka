@@ -18,6 +18,9 @@ Communicate between `<iframe>` and host
   - [Subscribe](#subscribe)
   - [Dispatch](#dispatch)
   - [Broadcast](#broadcast)
+- [React hooks](#react-hooks)
+  - [useHost](#usehost)
+  - [useGuest](#useguest)
 - [Examples](#examples)
   - [Vanilla](#vanilla)
     - [Host](#host)
@@ -109,6 +112,51 @@ through a channel.
 ```ts
 boadcast(window, "my-channel", {
   message: "Hello",
+});
+```
+
+## React hooks
+
+### useHost
+
+Provides curried host functions that don't need the window and channel.
+
+```tsx
+const { broadcast, connect, subscribe } = useHost(ref, "my-channel");
+
+connect({
+  message: "Hello",
+});
+
+boadcast({
+  message: "Hello",
+});
+
+subscribe(event => {
+  console.log(event);
+});
+```
+
+### useGuest
+
+```tsx
+const { connected, disconnect, dispatch, subscribe } = useGuest(ref, "my-channel");
+
+connected();
+
+disconnect();
+
+subscribe(event => {
+  console.log(event);
+});
+
+dispatch({
+  action: {
+    type: "greet",
+    payload: {
+      message: "Hello",
+    },
+  },
 });
 ```
 
