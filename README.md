@@ -259,7 +259,7 @@ export default function App() {
 #### Guest
 
 ```tsx
-import { connected, dispatch, subscribe } from "@/lib2";
+import { connected, dispatch, subscribe } from "esdeka";
 import { useEffect, useState } from "react";
 import { Except } from "type-fest";
 import create from "zustand";
