@@ -10,6 +10,9 @@ import {
 } from "../index";
 import { Action, MessageCallback } from "../types";
 
+export * from "../types";
+export { subscribe } from "../index";
+
 export function useHost(ref: RefObject<HTMLIFrameElement>, channel: string) {
 	const broadcast = useCallback(
 		<Payload>(payload: Payload) => {
