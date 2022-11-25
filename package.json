@@ -58,6 +58,7 @@
   ],
   "scripts": {
     "build": "yarn rollup",
+    "bundlesize": "yarn dlx bundlesize",
     "clean": "yarn dlx rimraf dist",
     "dev": "yarn rollup -w",
     "eslint": "eslint 'src/{**/*,*}.{js,ts}'",
@@ -72,7 +73,7 @@
     "release": "yarn dlx standard-version@9",
     "rollup": "rollup -c",
     "spj": "yarn dlx sort-package-json package.json",
-    "test": "jest",
+    "test": "jest --passWithNoTests",
     "test:watch": "jest --watch",
     "toc": "yarn dlx markdown-toc README.md -i",
     "tsc:emitOnly": "tsc --emitDeclarationOnly --project tsconfig.build.json",

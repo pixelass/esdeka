@@ -21,6 +21,7 @@ Communicate between `<iframe>` and host
 - [React hooks](#react-hooks)
   - [useHost](#usehost)
   - [useGuest](#useguest)
+- [Bundle size](#bundle-size)
 - [Examples](#examples)
   - [Vanilla](#vanilla)
     - [Host](#host)
@@ -158,6 +159,22 @@ dispatch({
     },
   },
 });
+```
+
+## Bundle size
+
+All bundles are smaller than 1KB
+
+```shell
+
+ PASS  ./dist/index.js: 551B < maxSize 1KB (gzip)
+
+ PASS  ./dist/index.mjs: 509B < maxSize 1KB (gzip)
+
+ PASS  ./dist/react.js: 695B < maxSize 1KB (gzip)
+
+ PASS  ./dist/react.mjs: 670B < maxSize 1KB (gzip)
+
 ```
 
 ## Examples
