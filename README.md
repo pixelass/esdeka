@@ -131,8 +131,6 @@ connect(iframe.contentWindow, "my-channel", { some: "Data" });
 ```ts
 import { connect } from "esdeka";
 
-const iframe = document.querySelector("iframe");
-
 subscribe("my-channel", event => {
   if (event.data.action.type === "connect") {
     connected(event.source, "my-channel");
