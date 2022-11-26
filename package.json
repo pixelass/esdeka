@@ -1,6 +1,6 @@
 {
   "name": "esdeka",
-  "version": "0.1.15",
+  "version": "0.1.16",
   "description": "Communicate between iframe and host",
   "keywords": [
     "react",

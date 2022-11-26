@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file. See
 [standard-version](https://github.com/conventional-changelog/standard-version) for commit
 guidelines.
 
+### [0.1.16](https://github.com/pixelass/esdeka/compare/v0.1.15...v0.1.16) (2022-11-26)
+
+### Features
+
+- add targetOrigin for secure communication ([#6](https://github.com/pixelass/esdeka/issues/6))
+  ([232a168](https://github.com/pixelass/esdeka/commit/232a1689f47268510be529fefe932fd051286f02))
+
 ### [0.1.15](https://github.com/pixelass/esdeka/compare/v0.1.14...v0.1.15) (2022-11-26)
 
 ### [0.1.14](https://github.com/pixelass/esdeka/compare/v0.1.13...v0.1.14) (2022-11-26)
