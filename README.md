@@ -3,11 +3,12 @@
 Communicate between `<iframe>` and host
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/pixelass/esdeka/main/resources/esdeka-logo.png" alt="" width="256"/>
+  <img src="https://raw.githubusercontent.com/pixelass/esdeka/main/resources/esdeka-logo.svg" alt="" width="256"/>
 </p>
 
-![Codacy coverage](https://img.shields.io/codacy/coverage/e6bcc5f792d54ed0902f9116e9435da3?style=for-the-badge)
-![Codacy grade](https://img.shields.io/codacy/grade/e6bcc5f792d54ed0902f9116e9435da3?style=for-the-badge)
+[![Codacy coverage](https://img.shields.io/codacy/coverage/e6bcc5f792d54ed0902f9116e9435da3?style=for-the-badge)](https://app.codacy.com/gh/pixelass/esdeka/dashboard?branch=main)
+[![Codacy grade](https://img.shields.io/codacy/grade/e6bcc5f792d54ed0902f9116e9435da3?style=for-the-badge)](https://app.codacy.com/gh/pixelass/esdeka/dashboard?branch=main)
+[![npm](https://img.shields.io/npm/v/esdeka?style=for-the-badge)](https://www.npmjs.com/package/esdeka)
 
 ## Table of Contents
 
