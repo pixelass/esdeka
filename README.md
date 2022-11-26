@@ -46,7 +46,7 @@ with an optional payload. We can then decide how to act on the transmitted data.
 
 To create a connection we need to call a client and wait for an answer.
 
-Setting up a **Host**:
+Setting up a **Host**.
 
 ```ts
 import { call } from "esdeka";
@@ -56,7 +56,7 @@ const iframe = document.querySelector("iframe");
 call(iframe.contentWindow, "my-channel", { some: "Data" });
 ```
 
-Setting up a **Guest**
+Setting up a **Guest**.
 
 ```ts
 import { answer, subscribe } from "esdeka";
@@ -70,7 +70,7 @@ subscribe("my-channel", event => {
 
 Once a connection exists, we can broadcast information from the host to the guest.
 
-**Host**:
+**Host**
 
 ```ts
 import { broadcast, call, subscribe } from "esdeka";
@@ -88,7 +88,9 @@ subscribe("my-channel", event => {
 });
 ```
 
-The guest subscribes to all messages and **Guest**
+The guest subscribes to all messages and act accordingly.
+
+**Guest**
 
 ```ts
 import { answer, subscribe } from "esdeka";
