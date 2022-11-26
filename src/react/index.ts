@@ -13,19 +13,19 @@ import { Action, MessageCallback } from "../types";
 export * from "../types";
 export { serialize } from "../";
 
-export function useHost(ref: RefObject<HTMLIFrameElement>, channel: string) {
+export function useHost(ref: RefObject<HTMLIFrameElement>, channel: string, targetOrigin = "*") {
 	const broadcast = useCallback(
 		<Payload>(payload: Payload) => {
-			broadcast_(ref.current.contentWindow, channel, payload);
+			broadcast_(ref.current.contentWindow, channel, payload, targetOrigin);
 		},
-		[channel]
+		[channel, targetOrigin]
 	);
 
 	const call = useCallback(
 		<Payload>(payload: Payload) => {
-			call_(ref.current.contentWindow, channel, payload);
+			call_(ref.current.contentWindow, channel, payload, targetOrigin);
 		},
-		[channel]
+		[channel, targetOrigin]
 	);
 
 	const subscribe = useCallback(
@@ -40,20 +40,20 @@ export function useHost(ref: RefObject<HTMLIFrameElement>, channel: string) {
 	};
 }
 
-export function useGuest(ref: RefObject<Window>, channel: string) {
+export function useGuest(ref: RefObject<Window>, channel: string, targetOrigin = "*") {
 	const answer = useCallback(() => {
-		answer_(ref.current, channel);
-	}, [channel]);
+		answer_(ref.current, channel, targetOrigin);
+	}, [channel, targetOrigin]);
 
 	const disconnect = useCallback(() => {
-		disconnect_(ref.current, channel);
-	}, [channel]);
+		disconnect_(ref.current, channel, targetOrigin);
+	}, [channel, targetOrigin]);
 
 	const dispatch = useCallback(
 		<Payload>(action: Action<Payload>) => {
-			dispatch_(ref.current, channel, action);
+			dispatch_(ref.current, channel, action, targetOrigin);
 		},
-		[channel]
+		[channel, targetOrigin]
 	);
 
 	const subscribe = useCallback(

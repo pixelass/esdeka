@@ -28,7 +28,12 @@ export function subscribe<Payload>(channel: string, callback: MessageCallback<Pa
 
 // Host communicators
 
-export function call<Payload>(window_: Window, channel: string, payload: Payload) {
+export function call<Payload>(
+	window_: Window,
+	channel: string,
+	payload: Payload,
+	targetOrigin = "*"
+) {
 	window_.postMessage(
 		{
 			client: clients.host,
@@ -38,11 +43,16 @@ export function call<Payload>(window_: Window, channel: string, payload: Payload
 				payload,
 			},
 		},
-		"*"
+		targetOrigin
 	);
 }
 
-export function broadcast<Payload>(window_: Window, channel: string, payload: Payload) {
+export function broadcast<Payload>(
+	window_: Window,
+	channel: string,
+	payload: Payload,
+	targetOrigin = "*"
+) {
 	window_.postMessage(
 		{
 			client: clients.host,
@@ -52,13 +62,13 @@ export function broadcast<Payload>(window_: Window, channel: string, payload: Pa
 				payload,
 			},
 		},
-		"*"
+		targetOrigin
 	);
 }
 
 // Guest communicators
 
-export function answer(window_: Window, channel: string) {
+export function answer(window_: Window, channel: string, targetOrigin = "*") {
 	window_.postMessage(
 		{
 			client: clients.guest,
@@ -67,11 +77,11 @@ export function answer(window_: Window, channel: string) {
 				type: "answer",
 			},
 		},
-		"*"
+		targetOrigin
 	);
 }
 
-export function disconnect(window_: Window, channel: string) {
+export function disconnect(window_: Window, channel: string, targetOrigin = "*") {
 	window_.postMessage(
 		{
 			client: clients.guest,
@@ -80,18 +90,23 @@ export function disconnect(window_: Window, channel: string) {
 				type: "disconnect",
 			},
 		},
-		"*"
+		targetOrigin
 	);
 }
 
-export function dispatch<Payload>(window_: Window, channel: string, action: Action<Payload>) {
+export function dispatch<Payload>(
+	window_: Window,
+	channel: string,
+	action: Action<Payload>,
+	targetOrigin = "*"
+) {
 	window_.postMessage(
 		{
 			client: clients.guest,
 			channel,
 			action,
 		},
-		"*"
+		targetOrigin
 	);
 }
 
