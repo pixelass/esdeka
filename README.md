@@ -26,7 +26,7 @@ Communicate between `<iframe>` and host
   - [`useHost`](#usehost)
   - [`useGuest`](#useguest)
 - [Bundle size](#bundle-size)
-  - [Full React example (using Zustand)](#full-react-example-using-zustand)
+- [Full React example (using Zustand)](#full-react-example-using-zustand)
 
 <!-- tocstop -->
 
@@ -287,7 +287,7 @@ All bundles are smaller than 1KB
 
 <!-- bundlestop -->
 
-### Full React example (using Zustand)
+## Full React example (using Zustand)
 
 **Host**
 
