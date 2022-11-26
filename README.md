@@ -88,7 +88,7 @@ subscribe("my-channel", event => {
 });
 ```
 
-The guest subscrubes to all messages and **Guest**
+The guest subscribes to all messages and **Guest**
 
 ```ts
 import { answer, subscribe } from "esdeka";
@@ -215,7 +215,7 @@ through a channel.
 | `payload` | `unknown` | The payload that of the message can contain any data. We cannot transmit functions or circular objects, therefore we recommend using a serializer.                          |
 
 ```ts
-boadcast(window, "my-channel", {
+broadcast(window, "my-channel", {
   message: "Hello",
 });
 ```
