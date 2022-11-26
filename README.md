@@ -194,7 +194,7 @@ connect(iframe.contentWindow, "my-channel", { some: "Data" });
 #### Guest
 
 ```ts
-import { connect } from "esdeka";
+import { connected, subscribe } from "esdeka";
 
 subscribe("my-channel", event => {
   if (event.data.action.type === "connect") {
@@ -210,8 +210,7 @@ subscribe("my-channel", event => {
 `http://localhost:3000/`
 
 ```tsx
-import { serialize } from "esdeka";
-import { useHost } from "esdeka/react";
+import { serialize, useHost } from "esdeka/react";
 import { DetailedHTMLProps, IframeHTMLAttributes, useEffect, useRef, useState } from "react";
 import create from "zustand";
 
