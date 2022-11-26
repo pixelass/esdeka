@@ -1,4 +1,4 @@
-import { renderHook } from "@testing-library/react";
+import { renderHook, waitFor } from "@testing-library/react";
 
 import { useGuest, useHost } from "../react";
 
@@ -89,25 +89,32 @@ describe("esdeka", () => {
 				window.location.origin
 			);
 		});
-		// This does not work
-		// Needs investigation
-		// it("should receive messages from guests", async () => {
-		// 	const callback = jest.fn();
-		// 	result.current.subscribe(callback);
-		// 	window.postMessage(
-		// 		{
-		// 			client: "__ESDEKA::guest__",
-		// 			channel: "test",
-		// 			action: {
-		// 				type: "answer",
-		// 			},
-		// 		},
-		// 		window.location.origin
-		// 	);
-		// 	await waitFor(() => {
-		// 		expect(callback).toHaveBeenCalled();
-		// 	});
-		// });
+		it("should receive messages from guests", async () => {
+			const callback = jest.fn();
+			window.postMessage = jest.fn(data => callback({ data }));
+			result.current.subscribe(callback);
+			window.postMessage(
+				{
+					client: "__ESDEKA::guest__",
+					channel: "test",
+					action: {
+						type: "answer",
+					},
+				},
+				window.location.origin
+			);
+			await waitFor(() => {
+				expect(callback).toHaveBeenCalledWith({
+					data: {
+						client: "__ESDEKA::guest__",
+						channel: "test",
+						action: {
+							type: "answer",
+						},
+					},
+				});
+			});
+		});
 	});
 	describe("useGuest", () => {
 		window.postMessage = jest.fn();
@@ -252,25 +259,33 @@ describe("esdeka", () => {
 				window.location.origin
 			);
 		});
-		// This does not work
-		// Needs investigation
-		// it("should receive messages from guests", async () => {
-		// 	const callback = jest.fn();
-		// 	result.current.subscribe(callback);
-		// 	window.postMessage(
-		// 		{
-		// 			client: "__ESDEKA::host__",
-		// 			channel: "test",
-		// 			action: {
-		// 				type: "call",
-		// 				payload: {},
-		// 			},
-		// 		},
-		// 		window.location.origin
-		// 	);
-		// 	await waitFor(() => {
-		// 		expect(callback).toHaveBeenCalled();
-		// 	});
-		// });
+		it("should receive messages from guests", async () => {
+			const callback = jest.fn();
+			window.postMessage = jest.fn(data => callback({ data }));
+			result.current.subscribe(callback);
+			window.postMessage(
+				{
+					client: "__ESDEKA::host__",
+					channel: "test",
+					action: {
+						type: "call",
+						payload: {},
+					},
+				},
+				window.location.origin
+			);
+			await waitFor(() => {
+				expect(callback).toHaveBeenCalledWith({
+					data: {
+						client: "__ESDEKA::host__",
+						channel: "test",
+						action: {
+							type: "call",
+							payload: {},
+						},
+					},
+				});
+			});
+		});
 	});
 });
