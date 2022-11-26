@@ -16,7 +16,8 @@
   "parserOptions": {
     "ecmaFeatures": {
       "jsx": true
-    }
+    },
+    "sourceType": "module"
   },
   "plugins": ["unicorn", "react-hooks", "import", "jest"],
   "ignorePatterns": ["dist", "*.d.ts"],
