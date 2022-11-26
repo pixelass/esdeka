@@ -73,7 +73,7 @@ describe("esdeka", () => {
 			)
 		);
 		it("should answer hosts", async () => {
-			result.current.answer(window);
+			result.current.answer();
 			expect(window.postMessage).toHaveBeenCalledWith(
 				{
 					action: {

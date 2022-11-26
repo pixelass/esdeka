@@ -43,12 +43,9 @@ export function useHost(ref: RefObject<HTMLIFrameElement>, channel: string) {
 }
 
 export function useGuest(ref: RefObject<Window>, channel: string) {
-	const answer = useCallback(
-		(window_: Window) => {
-			answer_(window_, channel);
-		},
-		[channel]
-	);
+	const answer = useCallback(() => {
+		answer_(ref.current, channel);
+	}, [channel]);
 
 	const disconnect = useCallback(() => {
 		disconnect_(ref.current, channel);
