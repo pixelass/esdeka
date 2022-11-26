@@ -7,7 +7,8 @@ on:
 
 jobs:
   release-please:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
+    name: Release Stable
     steps:
       - uses: google-github-actions/release-please-action@v3
         id: release
