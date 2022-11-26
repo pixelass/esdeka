@@ -29,9 +29,7 @@ export function useHost(ref: RefObject<HTMLIFrameElement>, channel: string) {
 	);
 
 	const subscribe = useCallback(
-		<Payload>(callback: MessageCallback<Payload>) => {
-			subscribe_(channel, callback);
-		},
+		<Payload>(callback: MessageCallback<Payload>) => subscribe_(channel, callback),
 		[channel]
 	);
 
@@ -59,9 +57,7 @@ export function useGuest(ref: RefObject<Window>, channel: string) {
 	);
 
 	const subscribe = useCallback(
-		<Payload>(callback: MessageCallback<Payload>) => {
-			subscribe_(channel, callback);
-		},
+		<Payload>(callback: MessageCallback<Payload>) => subscribe_(channel, callback),
 		[channel]
 	);
 
