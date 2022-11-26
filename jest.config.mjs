@@ -20,10 +20,10 @@ const jestConfig = {
 	collectCoverage: true,
 	coverageDirectory: "./coverage",
 	coverageProvider: "v8",
-	coverageReporters: ["lcov"],
+	coverageReporters: ["lcov", "text"],
 	testEnvironment: "jsdom",
 	transformIgnorePatterns: ["/node_modules/(?!(nanoid)/)"],
-	extensionsToTreatAsEsm: [".ts", ".tsx"]
+	extensionsToTreatAsEsm: [".ts", ".tsx"],
 };
 
 export default jestConfig;

@@ -14,7 +14,7 @@ export function subscribe<Payload>(channel: string, callback: MessageCallback<Pa
 		if (
 			event.data.client &&
 			Object.values(clients).includes(event.data.client) &&
-			event.data.channel == channel
+			event.data.channel === channel
 		) {
 			callback(event);
 		}
