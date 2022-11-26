@@ -258,11 +258,9 @@ subscribe(event => {
 });
 
 dispatch({
-  action: {
-    type: "greet",
-    payload: {
-      message: "Hello",
-    },
+  type: "greet",
+  payload: {
+    message: "Hello",
   },
 });
 ```
