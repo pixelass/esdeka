@@ -50,15 +50,18 @@ describe("esdeka", () => {
 		// it("should receive messages from guests", async () => {
 		// 	const callback = jest.fn();
 		// 	result.current.subscribe(callback);
-		// 	answer(window, "test");
-		// 	await waitFor(() => {
-		// 		expect(callback).toHaveBeenCalledWith({
+		// 	window.postMessage(
+		// 		{
+		// 			client: "__ESDEKA::guest__",
+		// 			channel: "test",
 		// 			action: {
 		// 				type: "answer",
 		// 			},
-		// 			channel: "test",
-		// 			client: "__ESDEKA::guest__",
-		// 		});
+		// 		},
+		// 		"*"
+		// 	);
+		// 	await waitFor(() => {
+		// 		expect(callback).toHaveBeenCalled();
 		// 	});
 		// });
 	});
@@ -137,20 +140,19 @@ describe("esdeka", () => {
 		// it("should receive messages from guests", async () => {
 		// 	const callback = jest.fn();
 		// 	result.current.subscribe(callback);
-		// 	call(window, "test", {
-		// 		message: "hello",
-		// 	});
-		// 	await waitFor(() => {
-		// 		expect(callback).toHaveBeenCalledWith({
+		// 	window.postMessage(
+		// 		{
+		// 			client: "__ESDEKA::host__",
+		// 			channel: "test",
 		// 			action: {
 		// 				type: "call",
-		// 				payload: {
-		// 					message: "hello",
-		// 				},
+		// 				payload: {},
 		// 			},
-		// 			channel: "test",
-		// 			client: "__ESDEKA::host__",
-		// 		});
+		// 		},
+		// 		"*"
+		// 	);
+		// 	await waitFor(() => {
+		// 		expect(callback).toHaveBeenCalled();
 		// 	});
 		// });
 	});

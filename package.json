@@ -74,7 +74,7 @@
     "release": "yarn dlx standard-version@9",
     "rollup": "rollup -c",
     "spj": "yarn dlx sort-package-json package.json",
-    "test": "jest --passWithNoTests",
+    "test": "jest",
     "test:watch": "jest --watch",
     "toc": "yarn dlx markdown-toc README.md -i",
     "tsc:emitOnly": "tsc --emitDeclarationOnly --project tsconfig.build.json",
