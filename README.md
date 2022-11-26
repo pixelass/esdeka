@@ -226,7 +226,7 @@ broadcast(window, "my-channel", {
 
 ### `useHost`
 
-Provides curried host functions that don't need the window and channel.
+Curried host functions that don't need the window and channel.
 
 ```tsx
 const { broadcast, call, subscribe } = useHost(ref, "my-channel");
@@ -246,10 +246,12 @@ subscribe(event => {
 
 ### `useGuest`
 
+Curried guest functions that don't need the window and channel.
+
 ```tsx
 const { answer, disconnect, dispatch, subscribe } = useGuest(ref, "my-channel");
 
-answer();
+answer(window);
 
 disconnect();
 
@@ -435,7 +437,7 @@ export function EsdekaGuest({ channel }: { channel: string }) {
       switch (action.type) {
         case "call":
           host.current = event.source as Window;
-          answer(host.current);
+          answer();
           break;
         case "broadcast":
           useStore.getState().set(action.payload);
