@@ -1,5 +1,7 @@
 import { Action, Clients, MessageCallback } from "./types";
 
+export * from "./types";
+
 export const clients: Clients = {
 	host: "__ESDEKA::host__",
 	guest: "__ESDEKA::guest__",
