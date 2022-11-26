@@ -10,67 +10,160 @@ Communicate between `<iframe>` and host
 
 <!-- toc -->
 
-- [Purpose](#purpose)
+- [Mechanism](#mechanism)
+  - [Creating a connection](#creating-a-connection)
 - [Functions](#functions)
-  - [Connect](#connect)
-  - [Connected](#connected)
-  - [Disconnect](#disconnect)
-  - [Subscribe](#subscribe)
-  - [Dispatch](#dispatch)
-  - [Broadcast](#broadcast)
+  - [`call`](#call)
+  - [`answer`](#answer)
+  - [`disconnect`](#disconnect)
+  - [`subscribe`](#subscribe)
+  - [`dispatch`](#dispatch)
+  - [`broadcast`](#broadcast)
 - [React hooks](#react-hooks)
-  - [useHost](#usehost)
-  - [useGuest](#useguest)
+  - [`useHost`](#usehost)
+  - [`useGuest`](#useguest)
 - [Bundle size](#bundle-size)
-- [Examples](#examples)
-  - [Vanilla](#vanilla)
-    - [Host](#host)
-    - [Guest](#guest)
-  - [React (using Zustand)](#react-using-zustand)
-    - [Host](#host-1)
-    - [Guest](#guest-1)
+  - [Full React example (using Zustand)](#full-react-example-using-zustand)
 
 <!-- tocstop -->
 
-## Purpose
+## Mechanism
 
-While building a dashboard we wanted to allow an easy way to communicate state changes and other
-data between the host and guest frame.
+Esdeka uses
+[`window.postMessage`](https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage) to
+communicate to iframes. It offers several helpers to make communication as easy as possible.
+
+We stream data down to the iframe. If the iframe wants to communicate back it dispatches an action
+with an optional payload. We can then decide how to act on the transmitted data.
 
 <img src="https://raw.githubusercontent.com/pixelass/esdeka/main/resources/esdeka-flow.svg" alt=""/>
+<small>Flux flow</small>
+
+### Creating a connection
+
+To create a connection we need to call a client and wait for an answer.
+
+Setting up a **Host**:
+
+```ts
+import { call } from "esdeka";
+
+const iframe = document.querySelector("iframe");
+
+call(iframe.contentWindow, "my-channel", { some: "Data" });
+```
+
+Setting up a **Guest**
+
+```ts
+import { answer, subscribe } from "esdeka";
+
+subscribe("my-channel", event => {
+  if (event.data.action.type === "call") {
+    answer(event.source, "my-channel");
+  }
+});
+```
+
+Once a connection exists, we can broadcast information from the host to the guest.
+
+**Host**:
+
+```ts
+import { broadcast, call, subscribe } from "esdeka";
+
+const iframe = document.querySelector("iframe");
+
+call(iframe.contentWindow, "my-channel", { some: "Data" });
+
+subscribe("my-channel", event => {
+  if (event.data.action.type === "answer") {
+    broadcast(event.source, "my-channel", {
+      question: "How are you?",
+    });
+  }
+});
+```
+
+The guest subscrubes to all messages and **Guest**
+
+```ts
+import { answer, subscribe } from "esdeka";
+
+const questions = [];
+
+subscribe("my-channel", event => {
+  const { type, payload } = event.data.action;
+  switch (type) {
+    case "broadcast":
+      if (payload?.question) {
+        questions.push(payload.question);
+      }
+      break;
+    case "call":
+      answer(event.source, "my-channel");
+      break;
+    default:
+      console.error("Not implemented");
+      break;
+  }
+});
+```
 
 ## Functions
 
-### Connect
+### `call`
 
 Sends a connection request from the host to a guest. The payload can be anything that you want to
 send through a channel.
 
+| Argument  | Type      | Description                                                                                                                                                                 |
+| --------- | --------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `source`  | `Window`  | Has to be a [`Window`](https://developer.mozilla.org/en-US/docs/Web/API/Window) to use [`postMessage`](https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage) |
+| `channel` | `string`  | The channel on which the host and gues communicate. The host and guest have to use the same channel to communicate.                                                         |
+| `payload` | `unknown` | The payload that of the message can contain any data. We cannot transmit functions or circular objects, therefore we recommend using a serializer.                          |
+
 ```ts
-connect(window, "my-channel", {
+call(window, "my-channel", {
   message: "Hello",
 });
 ```
 
-### Connected
+### `answer`
 
 Answer to a host to confirm the connection.
 
+| Argument  | Type     | Description                                                                                                                                                                 |
+| --------- | -------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `source`  | `Window` | Has to be a [`Window`](https://developer.mozilla.org/en-US/docs/Web/API/Window) to use [`postMessage`](https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage) |
+| `channel` | `string` | The channel on which the host and gues communicate. The host and guest have to use the same channel to communicate.                                                         |
+
 ```ts
-connected(window, "my-channel");
+answer(window, "my-channel");
 ```
 
-### Disconnect
+### `disconnect`
 
 Tell the host that the guest disconnected.
+
+| Argument  | Type     | Description                                                                                                                                                                 |
+| --------- | -------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `source`  | `Window` | Has to be a [`Window`](https://developer.mozilla.org/en-US/docs/Web/API/Window) to use [`postMessage`](https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage) |
+| `channel` | `string` | The channel on which the host and gues communicate. The host and guest have to use the same channel to communicate.                                                         |
 
 ```ts
 disconnect(window, "my-channel");
 ```
 
-### Subscribe
+### `subscribe`
 
 Listen to all messages in a channel.
+
+| Argument   | Type                            | Description                                                                                                                                                                 |
+| ---------- | ------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `source`   | `Window`                        | Has to be a [`Window`](https://developer.mozilla.org/en-US/docs/Web/API/Window) to use [`postMessage`](https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage) |
+| `channel`  | `string`                        | The channel on which the host and gues communicate. The host and guest have to use the same channel to communicate.                                                         |
+| `callback` | `(event: MessageEvent) => void` | The callback function of the subscription                                                                                                                                   |
 
 ```ts
 subscribe("my-channel", event => {
@@ -78,17 +171,21 @@ subscribe("my-channel", event => {
 });
 ```
 
-### Dispatch
+### `dispatch`
 
 Send an action to Esdeka. The host will be informed and can act un the request.
+
+| Argument  | Type              | Description                                                                                                                                                                 |
+| --------- | ----------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `source`  | `Window`          | Has to be a [`Window`](https://developer.mozilla.org/en-US/docs/Web/API/Window) to use [`postMessage`](https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage) |
+| `channel` | `string`          | The channel on which the host and gues communicate. The host and guest have to use the same channel to communicate.                                                         |
+| `action`  | `Action<unknown>` | The action that is dispatched by the guest.                                                                                                                                 |
 
 **Without payload**
 
 ```ts
 dispatch(window, "my-channel", {
-  action: {
-    type: "increment",
-  },
+  type: "increment",
 });
 ```
 
@@ -96,19 +193,23 @@ dispatch(window, "my-channel", {
 
 ```ts
 dispatch(window, "my-channel", {
-  action: {
-    type: "greet",
-    payload: {
-      message: "Hello",
-    },
+  type: "greet",
+  payload: {
+    message: "Hello",
   },
 });
 ```
 
-### Broadcast
+### `broadcast`
 
 Send data from the host window to the guest. The payload can be anything that you want to send
 through a channel.
+
+| Argument  | Type      | Description                                                                                                                                                                 |
+| --------- | --------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `source`  | `Window`  | Has to be a [`Window`](https://developer.mozilla.org/en-US/docs/Web/API/Window) to use [`postMessage`](https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage) |
+| `channel` | `string`  | The channel on which the host and gues communicate. The host and guest have to use the same channel to communicate.                                                         |
+| `payload` | `unknown` | The payload that of the message can contain any data. We cannot transmit functions or circular objects, therefore we recommend using a serializer.                          |
 
 ```ts
 boadcast(window, "my-channel", {
@@ -118,14 +219,14 @@ boadcast(window, "my-channel", {
 
 ## React hooks
 
-### useHost
+### `useHost`
 
 Provides curried host functions that don't need the window and channel.
 
 ```tsx
-const { broadcast, connect, subscribe } = useHost(ref, "my-channel");
+const { broadcast, call, subscribe } = useHost(ref, "my-channel");
 
-connect({
+call({
   message: "Hello",
 });
 
@@ -138,12 +239,12 @@ subscribe(event => {
 });
 ```
 
-### useGuest
+### `useGuest`
 
 ```tsx
-const { connected, disconnect, dispatch, subscribe } = useGuest(ref, "my-channel");
+const { answer, disconnect, dispatch, subscribe } = useGuest(ref, "my-channel");
 
-connected();
+answer();
 
 disconnect();
 
@@ -165,47 +266,25 @@ dispatch({
 
 All bundles are smaller than 1KB
 
+<!-- bundle -->
+
 ```shell
 
- PASS  ./dist/index.js: 551B < maxSize 1KB (gzip)
+ PASS  ./dist/index.js: 554B < maxSize 1KB (gzip)
 
- PASS  ./dist/index.mjs: 509B < maxSize 1KB (gzip)
+ PASS  ./dist/index.mjs: 511B < maxSize 1KB (gzip)
 
- PASS  ./dist/react.js: 695B < maxSize 1KB (gzip)
+ PASS  ./dist/react.js: 696B < maxSize 1KB (gzip)
 
- PASS  ./dist/react.mjs: 670B < maxSize 1KB (gzip)
+ PASS  ./dist/react.mjs: 673B < maxSize 1KB (gzip)
 
 ```
 
-## Examples
+<!-- bundlestop -->
 
-### Vanilla
+### Full React example (using Zustand)
 
-#### Host
-
-```ts
-import { connect } from "esdeka";
-
-const iframe = document.querySelector("iframe");
-
-connect(iframe.contentWindow, "my-channel", { some: "Data" });
-```
-
-#### Guest
-
-```ts
-import { connected, subscribe } from "esdeka";
-
-subscribe("my-channel", event => {
-  if (event.data.action.type === "connect") {
-    connected(event.source, "my-channel");
-  }
-});
-```
-
-### React (using Zustand)
-
-#### Host
+**Host**
 
 `http://localhost:3000/`
 
@@ -242,7 +321,7 @@ export function EsdekaHost({ channel, maxTries = 30, interval = 30, ...props }: 
   const connection = useRef(false);
   const [tries, setTries] = useState(maxTries);
 
-  const { broadcast, connect, subscribe } = useHost(ref, channel);
+  const { broadcast, call, subscribe } = useHost(ref, channel);
 
   // Send a connection request
   useEffect(() => {
@@ -252,16 +331,16 @@ export function EsdekaHost({ channel, maxTries = 30, interval = 30, ...props }: 
       };
     }
 
-    connect(serialize(useStore.getState()));
+    call(serialize(useStore.getState()));
     const timeout = setTimeout(() => {
-      connect(serialize(useStore.getState()));
+      call(serialize(useStore.getState()));
       setTries(tries - 1);
     }, interval);
 
     return () => {
       clearTimeout(timeout);
     };
-  }, [connect, tries, interval]);
+  }, [call, tries, interval]);
 
   useEffect(() => {
     if (!connection.current) {
@@ -269,7 +348,7 @@ export function EsdekaHost({ channel, maxTries = 30, interval = 30, ...props }: 
         const store = useStore.getState();
         const { action } = event.data;
         switch (action.type) {
-          case "connected":
+          case "answer":
             connection.current = true;
             break;
           default:
@@ -321,7 +400,7 @@ export default function App() {
 }
 ```
 
-#### Guest
+**Guest**
 
 `http://localhost:3001`
 
@@ -345,15 +424,15 @@ export const useStore = create<StoreModel>(set => ({
 export function EsdekaGuest({ channel }: { channel: string }) {
   const counter = useStore(state => state.counter);
   const host = useRef<Window | null>(null);
-  const { connected, dispatch, subscribe } = useGuest();
+  const { answer, dispatch, subscribe } = useGuest();
 
   useEffect(() => {
     const unsubscribe = subscribe<Except<StoreModel, "set">>(event => {
       const { action } = event.data;
       switch (action.type) {
-        case "connect":
+        case "call":
           host.current = event.source as Window;
-          connected(host.current);
+          answer(host.current);
           break;
         case "broadcast":
           useStore.getState().set(action.payload);
@@ -365,7 +444,7 @@ export function EsdekaGuest({ channel }: { channel: string }) {
     return () => {
       unsubscribe();
     };
-  }, [connected, subscribe]);
+  }, [answer, subscribe]);
 
   return (
     <div>

@@ -28,13 +28,13 @@ export function subscribe<Payload>(channel: string, callback: MessageCallback<Pa
 
 // Host communicators
 
-export function connect<Payload>(window_: Window, channel: string, payload: Payload) {
+export function call<Payload>(window_: Window, channel: string, payload: Payload) {
 	window_.postMessage(
 		{
 			client: clients.host,
 			channel,
 			action: {
-				type: "connect",
+				type: "call",
 				payload,
 			},
 		},
@@ -58,13 +58,13 @@ export function broadcast<Payload>(window_: Window, channel: string, payload: Pa
 
 // Guest communicators
 
-export function connected(window_: Window, channel: string) {
+export function answer(window_: Window, channel: string) {
 	window_.postMessage(
 		{
 			client: clients.guest,
 			channel,
 			action: {
-				type: "connected",
+				type: "answer",
 			},
 		},
 		"*"

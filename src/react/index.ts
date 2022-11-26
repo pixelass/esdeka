@@ -3,8 +3,8 @@ import { RefObject, useCallback } from "react";
 import {
 	broadcast as broadcast_,
 	subscribe as subscribe_,
-	connect as connect_,
-	connected as connected_,
+	call as call_,
+	answer as answer_,
 	disconnect as disconnect_,
 	dispatch as dispatch_,
 } from "../index";
@@ -21,9 +21,9 @@ export function useHost(ref: RefObject<HTMLIFrameElement>, channel: string) {
 		[channel]
 	);
 
-	const connect = useCallback(
+	const call = useCallback(
 		<Payload>(payload: Payload) => {
-			connect_(ref.current.contentWindow, channel, payload);
+			call_(ref.current.contentWindow, channel, payload);
 		},
 		[channel]
 	);
@@ -37,15 +37,15 @@ export function useHost(ref: RefObject<HTMLIFrameElement>, channel: string) {
 
 	return {
 		broadcast,
-		connect,
+		call,
 		subscribe,
 	};
 }
 
 export function useGuest(ref: RefObject<Window>, channel: string) {
-	const connected = useCallback(
+	const answer = useCallback(
 		(window_: Window) => {
-			connected_(window_, channel);
+			answer_(window_, channel);
 		},
 		[channel]
 	);
@@ -69,7 +69,7 @@ export function useGuest(ref: RefObject<Window>, channel: string) {
 	);
 
 	return {
-		connected,
+		answer,
 		disconnect,
 		dispatch,
 		subscribe,
