@@ -123,11 +123,12 @@ subscribe("my-channel", event => {
 Sends a connection request from the host to a guest. The payload can be anything that you want to
 send through a channel.
 
-| Argument  | Type      | Description                                                                                                                                                                 |
-| --------- | --------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `source`  | `Window`  | Has to be a [`Window`](https://developer.mozilla.org/en-US/docs/Web/API/Window) to use [`postMessage`](https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage) |
-| `channel` | `string`  | The channel on which the host and gues communicate. The host and guest have to use the same channel to communicate.                                                         |
-| `payload` | `unknown` | The payload that of the message can contain any data. We cannot transmit functions or circular objects, therefore we recommend using a serializer.                          |
+| Argument        | Type      | Description                                                                                                                                                                 |
+| --------------- | --------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `source`        | `Window`  | Has to be a [`Window`](https://developer.mozilla.org/en-US/docs/Web/API/Window) to use [`postMessage`](https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage) |
+| `channel`       | `string`  | The channel on which the host and gues communicate. The host and guest have to use the same channel to communicate.                                                         |
+| `payload`       | `unknown` | The payload that of the message can contain any data. We cannot transmit functions or circular objects, therefore we recommend using a serializer.                          |
+| `targetOrigin?` | `string`  | Optional origin to prevent insecure communication.                                                                                                                          |
 
 ```ts
 call(window, "my-channel", {
@@ -139,10 +140,11 @@ call(window, "my-channel", {
 
 Answer to a host to confirm the connection.
 
-| Argument  | Type     | Description                                                                                                                                                                 |
-| --------- | -------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `source`  | `Window` | Has to be a [`Window`](https://developer.mozilla.org/en-US/docs/Web/API/Window) to use [`postMessage`](https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage) |
-| `channel` | `string` | The channel on which the host and gues communicate. The host and guest have to use the same channel to communicate.                                                         |
+| Argument        | Type     | Description                                                                                                                                                                 |
+| --------------- | -------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `source`        | `Window` | Has to be a [`Window`](https://developer.mozilla.org/en-US/docs/Web/API/Window) to use [`postMessage`](https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage) |
+| `channel`       | `string` | The channel on which the host and gues communicate. The host and guest have to use the same channel to communicate.                                                         |
+| `targetOrigin?` | `string` | Optional origin to prevent insecure communication.                                                                                                                          |
 
 ```ts
 answer(window, "my-channel");
@@ -152,10 +154,11 @@ answer(window, "my-channel");
 
 Tell the host that the guest disconnected.
 
-| Argument  | Type     | Description                                                                                                                                                                 |
-| --------- | -------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `source`  | `Window` | Has to be a [`Window`](https://developer.mozilla.org/en-US/docs/Web/API/Window) to use [`postMessage`](https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage) |
-| `channel` | `string` | The channel on which the host and gues communicate. The host and guest have to use the same channel to communicate.                                                         |
+| Argument        | Type     | Description                                                                                                                                                                 |
+| --------------- | -------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `source`        | `Window` | Has to be a [`Window`](https://developer.mozilla.org/en-US/docs/Web/API/Window) to use [`postMessage`](https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage) |
+| `channel`       | `string` | The channel on which the host and gues communicate. The host and guest have to use the same channel to communicate.                                                         |
+| `targetOrigin?` | `string` | Optional origin to prevent insecure communication.                                                                                                                          |
 
 ```ts
 disconnect(window, "my-channel");
@@ -165,11 +168,12 @@ disconnect(window, "my-channel");
 
 Listen to all messages in a channel.
 
-| Argument   | Type                            | Description                                                                                                                                                                 |
-| ---------- | ------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `source`   | `Window`                        | Has to be a [`Window`](https://developer.mozilla.org/en-US/docs/Web/API/Window) to use [`postMessage`](https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage) |
-| `channel`  | `string`                        | The channel on which the host and gues communicate. The host and guest have to use the same channel to communicate.                                                         |
-| `callback` | `(event: MessageEvent) => void` | The callback function of the subscription                                                                                                                                   |
+| Argument        | Type                            | Description                                                                                                                                                                 |
+| --------------- | ------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `source`        | `Window`                        | Has to be a [`Window`](https://developer.mozilla.org/en-US/docs/Web/API/Window) to use [`postMessage`](https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage) |
+| `channel`       | `string`                        | The channel on which the host and gues communicate. The host and guest have to use the same channel to communicate.                                                         |
+| `callback`      | `(event: MessageEvent) => void` | The callback function of the subscription                                                                                                                                   |
+| `targetOrigin?` | `string`                        | Optional origin to prevent insecure communication.                                                                                                                          |
 
 ```ts
 subscribe("my-channel", event => {
@@ -181,11 +185,12 @@ subscribe("my-channel", event => {
 
 Send an action to Esdeka. The host will be informed and can act un the request.
 
-| Argument  | Type              | Description                                                                                                                                                                 |
-| --------- | ----------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `source`  | `Window`          | Has to be a [`Window`](https://developer.mozilla.org/en-US/docs/Web/API/Window) to use [`postMessage`](https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage) |
-| `channel` | `string`          | The channel on which the host and gues communicate. The host and guest have to use the same channel to communicate.                                                         |
-| `action`  | `Action<unknown>` | The action that is dispatched by the guest.                                                                                                                                 |
+| Argument        | Type              | Description                                                                                                                                                                 |
+| --------------- | ----------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `source`        | `Window`          | Has to be a [`Window`](https://developer.mozilla.org/en-US/docs/Web/API/Window) to use [`postMessage`](https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage) |
+| `channel`       | `string`          | The channel on which the host and gues communicate. The host and guest have to use the same channel to communicate.                                                         |
+| `action`        | `Action<unknown>` | The action that is dispatched by the guest.                                                                                                                                 |
+| `targetOrigin?` | `string`          | Optional origin to prevent insecure communication.                                                                                                                          |
 
 **Without payload**
 
@@ -211,11 +216,12 @@ dispatch(window, "my-channel", {
 Send data from the host window to the guest. The payload can be anything that you want to send
 through a channel.
 
-| Argument  | Type      | Description                                                                                                                                                                 |
-| --------- | --------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `source`  | `Window`  | Has to be a [`Window`](https://developer.mozilla.org/en-US/docs/Web/API/Window) to use [`postMessage`](https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage) |
-| `channel` | `string`  | The channel on which the host and gues communicate. The host and guest have to use the same channel to communicate.                                                         |
-| `payload` | `unknown` | The payload that of the message can contain any data. We cannot transmit functions or circular objects, therefore we recommend using a serializer.                          |
+| Argument        | Type      | Description                                                                                                                                                                 |
+| --------------- | --------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `source`        | `Window`  | Has to be a [`Window`](https://developer.mozilla.org/en-US/docs/Web/API/Window) to use [`postMessage`](https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage) |
+| `channel`       | `string`  | The channel on which the host and gues communicate. The host and guest have to use the same channel to communicate.                                                         |
+| `payload`       | `unknown` | The payload that of the message can contain any data. We cannot transmit functions or circular objects, therefore we recommend using a serializer.                          |
+| `targetOrigin?` | `string`  | Optional origin to prevent insecure communication.                                                                                                                          |
 
 ```ts
 broadcast(window, "my-channel", {
