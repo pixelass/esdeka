@@ -7,11 +7,11 @@ import {
 	answer as answer_,
 	disconnect as disconnect_,
 	dispatch as dispatch_,
-} from "../index";
+} from "../";
 import { Action, MessageCallback } from "../types";
 
 export * from "../types";
-export { subscribe } from "../index";
+export { serialize } from "../";
 
 export function useHost(ref: RefObject<HTMLIFrameElement>, channel: string) {
 	const broadcast = useCallback(
