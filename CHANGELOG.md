@@ -4,6 +4,15 @@ All notable changes to this project will be documented in this file. See
 [standard-version](https://github.com/conventional-changelog/standard-version) for commit
 guidelines.
 
+### [0.1.14](https://github.com/pixelass/esdeka/compare/v0.1.13...v0.1.14) (2022-11-26)
+
+### Bug Fixes
+
+- **react:** serialize should be exported
+  ([f7d50da](https://github.com/pixelass/esdeka/commit/f7d50da6ecfd292db7ca2a45a7c3ef11c1da190c))
+- subscribe from hook return value
+  ([b79b518](https://github.com/pixelass/esdeka/commit/b79b5181080050b904b19a026162477650413e0a))
+
 ### [0.1.13](https://github.com/pixelass/esdeka/compare/v0.1.12...v0.1.13) (2022-11-26)
 
 ### Features
