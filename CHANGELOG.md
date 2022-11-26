@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file. See
 [standard-version](https://github.com/conventional-changelog/standard-version) for commit
 guidelines.
 
+### [0.1.12](https://github.com/pixelass/esdeka/compare/v0.1.11...v0.1.12) (2022-11-26)
+
+### Bug Fixes
+
+- strict comparison of channel name
+  ([69c929b](https://github.com/pixelass/esdeka/commit/69c929b96cfa3f07b96dbb047c98214c5f101368))
+
 ### [0.1.11](https://github.com/pixelass/esdeka/compare/v0.1.10...v0.1.11) (2022-11-26)
 
 ### Features
