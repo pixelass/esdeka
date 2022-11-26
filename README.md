@@ -6,6 +6,9 @@ Communicate between `<iframe>` and host
   <img src="https://raw.githubusercontent.com/pixelass/esdeka/main/resources/esdeka-logo.png" alt="" width="256"/>
 </p>
 
+![Codacy coverage](https://img.shields.io/codacy/coverage/e6bcc5f792d54ed0902f9116e9435da3?style=for-the-badge)
+![Codacy grade](https://img.shields.io/codacy/grade/e6bcc5f792d54ed0902f9116e9435da3?style=for-the-badge)
+
 ## Table of Contents
 
 <!-- toc -->
