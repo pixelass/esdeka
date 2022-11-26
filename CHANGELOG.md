@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file. See
 [standard-version](https://github.com/conventional-changelog/standard-version) for commit
 guidelines.
 
+### [0.1.13](https://github.com/pixelass/esdeka/compare/v0.1.12...v0.1.13) (2022-11-26)
+
+### Features
+
+- simplify answer of guests ([#4](https://github.com/pixelass/esdeka/issues/4))
+  ([a1f53a6](https://github.com/pixelass/esdeka/commit/a1f53a6c29fe3b75e43f4bf34ee34c7e79f8ca0a))
+
 ### [0.1.12](https://github.com/pixelass/esdeka/compare/v0.1.11...v0.1.12) (2022-11-26)
 
 ### Bug Fixes
