@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file. See
 [standard-version](https://github.com/conventional-changelog/standard-version) for commit
 guidelines.
 
+### [0.1.11](https://github.com/pixelass/esdeka/compare/v0.1.10...v0.1.11) (2022-11-26)
+
+### Features
+
+- rename functions
+  ([46b1892](https://github.com/pixelass/esdeka/commit/46b1892a24024fce9a24d36d98e54dbcf01a1f90))
+
 ### [0.1.10](https://github.com/pixelass/esdeka/compare/v0.1.9...v0.1.10) (2022-11-26)
 
 ### Features
