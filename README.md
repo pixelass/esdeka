@@ -8,7 +8,7 @@ Communicate between `<iframe>` and host
 
 [![Codacy coverage](https://img.shields.io/codacy/coverage/e6bcc5f792d54ed0902f9116e9435da3?logo=jest&style=for-the-badge)](https://app.codacy.com/gh/pixelass/esdeka/dashboard?branch=main)
 [![Codacy grade](https://img.shields.io/codacy/grade/e6bcc5f792d54ed0902f9116e9435da3?logo=codacy&style=for-the-badge)](https://app.codacy.com/gh/pixelass/esdeka/dashboard?branch=main)
-[![Snyk Vulnerabilities for GitHub Repo](https://img.shields.io/snyk/vulnerabilities/github/pixelass/esdeka?color=%23471694&logo=snyk&style=for-the-badge)](https://snyk.io/advisor/npm-package/esdeka)
+[![Snyk Vulnerabilities for GitHub Repo](https://img.shields.io/snyk/vulnerabilities/github/pixelass/esdeka?color=%23471694&logo=snyk&style=for-the-badge)](https://snyk.io/test/github/pixelass/esdeka)
 
 [![npm](https://img.shields.io/npm/v/esdeka?color=%23cb3837&logo=npm&style=for-the-badge)](https://www.npmjs.com/package/esdeka)
 [![npm downloads weekly](https://img.shields.io/npm/dw/esdeka?color=%23cb3837&logo=npm&style=for-the-badge)](https://www.npmjs.com/package/esdeka)
