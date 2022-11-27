@@ -250,7 +250,7 @@ call({
   message: "Hello",
 });
 
-boadcast({
+broadcast({
   message: "Hello",
 });
 
@@ -266,7 +266,7 @@ Curried guest functions that don't need the window and channel.
 ```tsx
 const { answer, disconnect, dispatch, subscribe } = useGuest(ref, "my-channel");
 
-answer(window);
+answer();
 
 disconnect();
 
