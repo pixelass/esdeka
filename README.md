@@ -290,13 +290,13 @@ All bundles are smaller than 1KB
 
 ```shell
 
- PASS  ./dist/index.js: 554B < maxSize 1KB (gzip)
+ PASS  ./dist/index.js: 568B < maxSize 1KB (gzip)
 
- PASS  ./dist/index.mjs: 511B < maxSize 1KB (gzip)
+ PASS  ./dist/index.mjs: 526B < maxSize 1KB (gzip)
 
- PASS  ./dist/react.js: 696B < maxSize 1KB (gzip)
+ PASS  ./dist/react.js: 752B < maxSize 1KB (gzip)
 
- PASS  ./dist/react.mjs: 673B < maxSize 1KB (gzip)
+ PASS  ./dist/react.mjs: 729B < maxSize 1KB (gzip)
 
 ```
 
