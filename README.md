@@ -6,9 +6,17 @@ Communicate between `<iframe>` and host
   <img src="https://raw.githubusercontent.com/pixelass/esdeka/main/resources/esdeka-logo.svg" alt="" width="256"/>
 </p>
 
-[![Codacy coverage](https://img.shields.io/codacy/coverage/e6bcc5f792d54ed0902f9116e9435da3?style=for-the-badge)](https://app.codacy.com/gh/pixelass/esdeka/dashboard?branch=main)
-[![Codacy grade](https://img.shields.io/codacy/grade/e6bcc5f792d54ed0902f9116e9435da3?style=for-the-badge)](https://app.codacy.com/gh/pixelass/esdeka/dashboard?branch=main)
-[![npm](https://img.shields.io/npm/v/esdeka?style=for-the-badge)](https://www.npmjs.com/package/esdeka)
+[![Codacy coverage](https://img.shields.io/codacy/coverage/e6bcc5f792d54ed0902f9116e9435da3?logo=jest&style=for-the-badge)](https://app.codacy.com/gh/pixelass/esdeka/dashboard?branch=main)
+[![Codacy grade](https://img.shields.io/codacy/grade/e6bcc5f792d54ed0902f9116e9435da3?logo=codacy&style=for-the-badge)](https://app.codacy.com/gh/pixelass/esdeka/dashboard?branch=main)
+[![Snyk Vulnerabilities for GitHub Repo](https://img.shields.io/snyk/vulnerabilities/github/pixelass/esdeka?color=%23471694&logo=snyk&style=for-the-badge)](https://snyk.io/advisor/npm-package/esdeka)
+
+[![npm](https://img.shields.io/npm/v/esdeka?color=%23cb3837&logo=npm&style=for-the-badge)](https://www.npmjs.com/package/esdeka)
+[![npm downloads weekly](https://img.shields.io/npm/dw/esdeka?color=%23cb3837&logo=npm&style=for-the-badge)](https://www.npmjs.com/package/esdeka)
+
+[![License MIT](https://img.shields.io/github/license/pixelass/esdeka?style=for-the-badge)](https://github.com/pixelass/esdeka/blob/main/LICENSE)
+![node-current](https://img.shields.io/node/v/esdeka?color=%23026e00&style=for-the-badge)
+
+[![GitHub Sponsors](https://img.shields.io/github/sponsors/pixelass?color=%23db61a2&logo=github&style=for-the-badge)](https://github.com/sponsors/pixelass)
 
 ## Table of Contents
 
