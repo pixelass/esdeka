@@ -426,7 +426,7 @@ export default function App() {
 
 ```tsx
 import { useGuest } from "esdeka/react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef } from "react";
 import create from "zustand";
 
 export interface StoreModel {
