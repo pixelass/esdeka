@@ -41,12 +41,15 @@ Communicate between `<iframe>` and host
 
 ## Mechanism
 
-Esdeka uses
-[`window.postMessage`](https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage) to
-communicate to iframes. It offers several helpers to make communication as easy as possible.
+Esdeka is a small and lightweight library that provides a simple mechanism for communication between a host window and one or more guest iframes. It uses [`window.postMessage`](https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage) to transmit data between the two, and offers several helper functions to make the process as easy as possible.
 
-We stream data down to the iframe. If the iframe wants to communicate back it dispatches an action
-with an optional payload. We can then decide how to act on the transmitted data.
+With Esdeka, you can stream data down to the iframe, and if the iframe needs to communicate back, it can dispatch an action with an optional payload. You can then choose how to respond to the transmitted data.
+
+Esdeka is easy to use and offers a range of functions to create and manage connections, including `call`, `answer`, `broadcast`, and `subscribe`. It also includes a set of React hooks for even simpler integration with your React projects.
+
+With all bundles smaller than 1KB, Esdeka is a great choice for lightweight communication between your web pages and iframes.
+
+
 
 <img src="https://raw.githubusercontent.com/pixelass/esdeka/main/resources/esdeka-flow.svg" alt=""/>
 <small>Flux flow</small>
